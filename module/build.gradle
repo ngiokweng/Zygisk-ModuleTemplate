@@ -21,7 +21,7 @@ android {
         }
     }
     buildFeatures {
-        prefab false
+        prefab true
     }
     externalNativeBuild {
         cmake {
@@ -30,6 +30,10 @@ android {
         }
     }
     ndkVersion '23.1.7779620'
+}
+
+dependencies {
+    implementation 'com.bytedance:bytehook:1.0.10'
 }
 
 afterEvaluate {

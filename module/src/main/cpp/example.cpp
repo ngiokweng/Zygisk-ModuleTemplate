@@ -1,15 +1,16 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <fcntl.h>
-#include <android/log.h>
+#include <string.h>
+#include "log.h"
 
 #include "zygisk.hpp"
+#include "hooktest.h"
 
 using zygisk::Api;
 using zygisk::AppSpecializeArgs;
 using zygisk::ServerSpecializeArgs;
 
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "Magisk", __VA_ARGS__)
 
 class MyModule : public zygisk::ModuleBase {
 public:
@@ -40,10 +41,14 @@ private:
         int fd = api->connectCompanion();
         read(fd, &r, sizeof(r));
         close(fd);
-        LOGD("example: process=[%s], r=[%u]\n", process, r);
 
-        // Since we do not hook any functions, we should let Zygisk dlclose ourselves
-        api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+        if (strstr("com.hexl.lessontest", process)){
+            LOGD("try to hook");
+            my_hook();
+        } else{
+            // Since we do not hook any functions, we should let Zygisk dlclose ourselves
+            api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+        }
     }
 
 };

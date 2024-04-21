@@ -1,6 +1,6 @@
-id=zygisk_shocker
-name=zygisk_shocker
+id=zygisk_ng1ok
+name=zygisk_ng1ok
 version=v1.0.0
 versionCode=26
-author=Shocker
-description=test
+author=ngiokweng
+description=Magisk模塊開發demo(with bhook)
