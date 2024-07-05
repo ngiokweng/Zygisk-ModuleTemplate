@@ -2,3 +2,4 @@ ro.ng1ok=1
 ro.build.id=OPM1.171019.015
 ro.build.display.id=OPM1.171019.015
 ro.build.version.release=8.2.5
+ro.debuggable=1
