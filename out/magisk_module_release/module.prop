@@ -1,6 +1,6 @@
-id=zygisk_shocker
-name=zygisk_shocker
+id=zygisk_pine_test
+name=zygisk_pine_test
 version=v1.0.0
 versionCode=26
-author=Shocker
-description=test
+author=ngiokweng
+description=testing inject pine

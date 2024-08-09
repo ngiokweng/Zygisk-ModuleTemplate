@@ -2,14 +2,15 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <android/log.h>
+#include <string.h>
 
 #include "zygisk.hpp"
+#include "log.h"
+#include "pine.h"
 
 using zygisk::Api;
 using zygisk::AppSpecializeArgs;
 using zygisk::ServerSpecializeArgs;
-
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, "Magisk", __VA_ARGS__)
 
 class MyModule : public zygisk::ModuleBase {
 public:
@@ -34,16 +35,34 @@ private:
     JNIEnv *env;
 
     void preSpecialize(const char *process) {
-        // Demonstrate connecting to to companion process
-        // We ask the companion for a random number
-        unsigned r = 0;
-        int fd = api->connectCompanion();
-        read(fd, &r, sizeof(r));
-        close(fd);
-        LOGD("example: process=[%s], r=[%u]\n", process, r);
+//        // Demonstrate connecting to to companion process
+//        // We ask the companion for a random number
+//        unsigned r = 0;
+//        int fd = api->connectCompanion();
+//        read(fd, &r, sizeof(r));
+//        close(fd);
+//        LOGD("example: process=[%s], r=[%u]\n", process, r);
+//
+//        // Since we do not hook any functions, we should let Zygisk dlclose ourselves
+//        api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+        LOGD("pineStart, %s", process);
+        bool start_result = false;
+        if(strstr("system_server", process) || strstr(process, "com.android") ||
+           strstr(process, "com.google") || strstr(process, "com.qualcomm") ||
+           strstr(process, "android.process")){
+            // Demonstrate connecting to to companion process
+            // We ask the companion for a random number
+            unsigned r = 0;
+            int fd = api->connectCompanion();
+            read(fd, &r, sizeof(r));
+            close(fd);
+            api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+        } else{
+            start_result = pineStart(env, false);
+        }
+        LOGD("pineStart result: %d , %s", start_result, process);
 
-        // Since we do not hook any functions, we should let Zygisk dlclose ourselves
-        api->setOption(zygisk::Option::DLCLOSE_MODULE_LIBRARY);
+
     }
 
 };

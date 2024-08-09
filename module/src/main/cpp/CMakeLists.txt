@@ -32,7 +32,7 @@ set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${LINKER_FLAGS}")
 
 include_directories(include)
 
-add_library(${MODULE_NAME} SHARED example.cpp zygisk.hpp)
+add_library(${MODULE_NAME} SHARED example.cpp zygisk.hpp pine.cpp)
 target_link_libraries(${MODULE_NAME}  log)
 
 if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")

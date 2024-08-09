@@ -59,6 +59,8 @@ extract "$ZIPFILE" 'module.prop'        "$MODPATH"
 extract "$ZIPFILE" 'service.sh'         "$MODPATH"
 extract "$ZIPFILE" 'uninstall.sh'       "$MODPATH"
 
+unzip -q "$ZIPFILE" 'system/*' -d "$MODPATH"
+
 ui_print "- Extracting zygisk libraries"
 
 if [ "$FLAVOR" == "zygisk" ]; then
